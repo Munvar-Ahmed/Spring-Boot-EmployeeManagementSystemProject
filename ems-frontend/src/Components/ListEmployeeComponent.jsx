@@ -7,7 +7,11 @@ const ListEmployeeComponent = () => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    getAllEmployees();
+    listEmployees()
+      .then((response) => {
+        setEmployees(response.data);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   const getAllEmployees = () => {
@@ -24,7 +28,10 @@ const ListEmployeeComponent = () => {
   function deleteEmployee(id) {
     console.log(id);
     deleteEmp(id)
-      .then((response) => getAllEmployees())
+      .then((response) => {
+        console.log(response.data);
+        getAllEmployees();
+      })
       .catch((error) => console.error(error));
   }
 
