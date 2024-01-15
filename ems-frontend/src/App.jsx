@@ -13,9 +13,11 @@ const App = () => {
         <Routes>
           <Route path="/" element={<ListEmployeeComponent />}></Route>
           <Route path="/employees" element={<ListEmployeeComponent />}></Route>
-          <Route path="/add-employee" element={<EmployeeComponent />}>
-            Add Employee
-          </Route>
+          <Route path="/add-employee" element={<EmployeeComponent />}></Route>
+          <Route
+            path="/update-employee/:id"
+            element={<EmployeeComponent />}
+          ></Route>
         </Routes>
         <FooterComponent />
       </BrowserRouter>

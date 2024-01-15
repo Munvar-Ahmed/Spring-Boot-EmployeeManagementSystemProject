@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listEmployees } from "../Services/EmployeeService";
+import { deleteEmp, listEmployees } from "../Services/EmployeeService";
 import { useNavigate } from "react-router-dom";
 
 const ListEmployeeComponent = () => {
@@ -7,16 +7,26 @@ const ListEmployeeComponent = () => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
+    getAllEmployees();
+  }, []);
+
+  const getAllEmployees = () => {
     listEmployees()
       .then((response) => {
         setEmployees(response.data);
       })
       .catch((error) => console.error(error));
-  }, []);
-
-  const addNewEmployee = () => {
-    navigate("/add-employee");
   };
+  const addNewEmployee = () => navigate("/add-employee");
+
+  const updateEmployee = (id) => navigate(`/update-employee/${id}`);
+
+  function deleteEmployee(id) {
+    console.log(id);
+    deleteEmp(id)
+      .then((response) => getAllEmployees())
+      .catch((error) => console.error(error));
+  }
 
   return (
     <div className="container">
@@ -31,6 +41,7 @@ const ListEmployeeComponent = () => {
             <th>Employee FirstName</th>
             <th>Employee LastName</th>
             <th>Employee Email</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +51,21 @@ const ListEmployeeComponent = () => {
               <td>{emp.firstName}</td>
               <td>{emp.lastName}</td>
               <td>{emp.email}</td>
+              <td>
+                <button
+                  className="btn btn-info"
+                  onClick={() => updateEmployee(emp.id)}
+                >
+                  Update
+                </button>
+                <button
+                  className="btn btn-danger mr-2px"
+                  onClick={() => deleteEmployee(emp.id)}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
